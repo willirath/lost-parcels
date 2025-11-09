@@ -2,6 +2,27 @@
 
 Providing environments for exploring old [OceanParcels / Parcels](https://parcels-code.org) releases.
 
+## Get every Parcels release locally
+
+Each `parcels-v*` directory in this repo is a git submodule pinned to the
+matching upstream release tag. To grab everything in one shot, clone with
+recursive submodules enabled:
+
+```bash
+git clone --recurse-submodules <repo-url>
+```
+
+If you already cloned the repo, or if a new release directory gets added later,
+run the following from the repo root to make sure every submodule is present:
+
+```bash
+git submodule update --init --recursive
+```
+
+Whenever a new Parcels release lands in this repo, re-running that command (or
+`git submodule update --remote` if you want to track the newest upstream tags)
+will pull down the matching `parcels-vXYZ/` contents so Pixi can see them.
+
 ## Workflow Overview
 
 Every OceanParcels release in this repo follows the same pattern:
