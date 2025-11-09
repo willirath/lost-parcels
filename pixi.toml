@@ -9,6 +9,7 @@ version = "0.1.0"
 parcels-v09 = { features = ["parcels-v09"] }
 parcels-v111 = { features = ["parcels-v111"] }
 parcels-v242 = { features = ["parcels-v242"] }
+parcels-v314 = { features = ["parcels-v314"] }
 
 [feature.parcels-v09.tasks.bootstrap-v09]
 cmd = "bash scripts/bootstrap-parcels-v09.sh"
@@ -124,3 +125,54 @@ pandoc = ">=2,<3"
 pydata-sphinx-theme = ">=0.13,<0.14"
 sphinx-autobuild = ">=2021.3,<2022"
 myst-parser = ">=1,<2"
+
+[feature.parcels-v314.tasks.bootstrap-v314]
+cmd = "bash scripts/bootstrap-parcels-v314.sh"
+
+[feature.parcels-v314.tasks.parcels-v314-python]
+cmd = 'env PYTHONPATH="$PWD/parcels-v314" MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+
+[feature.parcels-v314.tasks.parcels-v314-notebook]
+cmd = 'env PYTHONPATH="$PWD/parcels-v314" MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
+
+[feature.parcels-v314.dependencies]
+python = "3.11.*"
+pip = ">=23.2,<24"
+setuptools = ">=70,<71"
+wheel = ">=0.42,<0.45"
+setuptools-scm = ">=7,<9"
+cgen = ">=2020.1"
+ffmpeg = ">=4,<6"
+jupyter = ">=1,<2"
+notebook = ">=7,<8"
+matplotlib = ">=3.8,<3.9"
+netcdf4 = ">=1.6,<1.7"
+libnetcdf = ">=4.9,<4.10"
+numpy = ">=1.26,<1.27"
+platformdirs = ">=3,<5"
+psutil = ">=5.9,<6"
+pymbolic = ">=2022,<2024"
+scipy = ">=1.11,<1.13"
+tqdm = ">=4.66,<5"
+xarray = ">=2023.9.0,<2024.5"
+dask = ">=2023.9.0,<2024.5"
+cftime = ">=1.6,<1.7"
+scikit-learn = ">=1.3,<1.4"
+zarr = ">=2.14,<3"
+trajan = ">=0.1,<0.2"
+nbval = ">=0.11,<0.12"
+pytest = ">=7.4,<8"
+pytest-html = ">=3.2,<4"
+coverage = ">=7,<8"
+mypy = ">=1.4,<1.8"
+types-tqdm = ">=4.66.0.4,<4.67"
+types-psutil = ">=5.9.5,<5.10"
+pre-commit = ">=3,<4"
+ipython = ">=8.18,<8.19"
+numpydoc = ">=1.6,<1.7"
+nbsphinx = ">=0.9,<0.10"
+sphinx = ">=7,<8"
+pandoc = ">=2,<3"
+pydata-sphinx-theme = ">=0.14,<0.15"
+sphinx-autobuild = ">=2021.3,<2022"
+myst-parser = ">=2,<3"
