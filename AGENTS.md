@@ -1,30 +1,60 @@
 # Lost Parcels Agent Notes
 
-These are the key tricks that made the legacy `v0.9` OceanParcels release usable again:
+## Per-version playbook
 
-1. **Isolate per-version environments.** Define a Pixi feature (`parcels-v09`) with its own environment entry so Python 2.7 and friends stay separate from other versions. All tasks (`parcels-v09-python`, `parcels-v09-notebook`, `bootstrap-v09`) live under that feature, so Pixi always activates the matching env.
-2. **Leverage the submodule directly.** The OceanParcels repo is vendored as `parcels-v09/`; the tasks set `PYTHONPATH="$PWD/parcels-v09"` before launching Python/Jupyter so the code is used in-place (no editable install).
-3. **Bootstrap missing pip-only deps.** Conda-forge no longer ships some Python 2 wheels (`cgen`, `pymbolic`, `progressbar`). A dedicated `pixi run bootstrap-v09` task installs them via pip every time the env is recreated.
-4. **Document the workflow.** README walks through `pixi install -e parcels-v09`, `pixi run bootstrap-v09`, then the script/notebook tasks. Future versions can mimic this pattern (new feature + bootstrap task + submodule directory).
-5. **Keep notebooks headless-friendly.** `parcels-v09-notebook` disables auto-opening browsers, which keeps the command usable in remote/sandboxed contexts.
+Use this checklist whenever a new OceanParcels release is added:
 
----
+1. **Clone the submodule** at `parcels-vXYZ/` (name = `parcels-v{slug}`). Checkout
+   the upstream tag you care about and add it to `.gitmodules`.
+2. **Define a Pixi feature/environment** named `parcels-vXYZ`. Keep the version’s
+   platform requirements isolated; mirror the old upstream `environment_*.yml`
+   when possible.
+3. **Add three Pixi tasks** under that feature:
+   - `bootstrap-vXYZ` → calls `scripts/bootstrap-parcels-vXYZ.sh`.
+   - `parcels-vXYZ-python` → sets `PYTHONPATH=$PWD/parcels-vXYZ` (plus any
+     extra env like `MPLCONFIGDIR`) and runs `python`.
+   - `parcels-vXYZ-notebook` → same env setup, points Jupyter at the correct
+     examples directory, and disables browser launch.
+4. **Write the bootstrap script** to install any pip-only packages and finish
+   with `pip install -e parcels-vXYZ` whenever the package expects `_version`
+   files. Shell scripts keep the Pixi config consistent.
+5. **Document the release** in `README.md` and update this file to note any
+   quirks (extra pip deps, notebook paths, MPI requirements, etc.).
+6. **Headless hygiene**: ensure every runtime task avoids launching browsers,
+   writes caches inside the repo (e.g. `.cache/matplotlib`), and does not assume
+   MPI availability unless explicitly added.
 
-For `v1.1.1`, the same pattern applies with a second feature (`parcels-v111`) plus:
+Following this pattern means future releases only need new submodule + feature
+entries and a short README/agent blurb.
 
-- Editable install is required because the package imports `parcels._version`. The bootstrap task now calls `scripts/bootstrap-parcels-v111.sh`, which installs the pip-only deps and then runs `pip install -e parcels-v111`.
-- Extra conda deps (`cachetools`, `matplotlib 2.2.*`, `netcdftime`, `progressbar2`, etc.) come from the historic `environment_py2_osx.yml`.
-- Tasks `parcels-v111-python` / `parcels-v111-notebook` mirror the v0.9 ones but point to the new submodule path.
-- Notebooks live under `parcels-v111/parcels/examples`, so the Pixi task points Jupyter at that subdirectory instead of the top-level `examples`.
+## Current releases
 
-Add future releases by cloning another submodule, defining a feature/environment pair, capturing any pip-only needs in a bootstrap script, and documenting the workflow in the README.
+### `v09` (tag `v0.9`, Python 2.7)
+- Environment: legacy Py2 stack with `pixi install -e parcels-v09`.
+- Bootstrap: `scripts/bootstrap-parcels-v09.sh` installs the PyPI-only wheels
+  (`cgen<2020`, `progressbar<3`, `pymbolic<2020`).
+- Runtime tasks: `parcels-v09-python` / `parcels-v09-notebook` set
+  `PYTHONPATH=./parcels-v09` and run inside `parcels-v09/examples`.
+- Notes: no editable install required, but notebooks must keep
+  `--NotebookApp.open_browser=False`.
 
----
+### `v111` (tag `v1.1.1`, Python 2.7)
+- Environment: extends the Py2 stack with the extra packages from
+  `environment_py2_osx.yml` (e.g. `cachetools`, `progressbar2`, `matplotlib 2.2.*`).
+- Bootstrap: `scripts/bootstrap-parcels-v111.sh` installs the missing pip wheels
+  and runs `pip install -e parcels-v111` because the code imports `parcels._version`.
+- Runtime tasks: point Jupyter at `parcels-v111/parcels/examples` so the bundled
+  notebooks resolve resources correctly.
+- Notes: same headless settings as v0.9; keep Python 2.7 tooling pinned.
 
-For the latest v2 line (tag `v2.4.2`):
-
-- New submodule lives at `parcels-v242/` and has its own Pixi feature/environment with Python 3.10 plus the conda packages from `environment_py3_osx.yml` (minus MPI drivers, which cannot run in the sandbox).
-- All tasks (`bootstrap-v242`, `parcels-v242-python`, `parcels-v242-notebook`) live under that feature. Both runtime tasks set `PYTHONPATH=./parcels-v242` and `MPLCONFIGDIR=$PWD/.cache/matplotlib` to keep imports editable and Matplotlib caches writable.
-- `scripts/bootstrap-parcels-v242.sh` installs the pip-only `setuptools_scm_git_archive` helper and then runs `pip install -e parcels-v242` so `parcels._version` is generated correctly.
-- The modern examples and notebooks now live under `parcels-v242/docs/examples`, so the notebook task points there and the README examples reference that directory.
-- MPI support is disabled by default; document that users who really need `mpi4py`/`mpich` can add them manually to the feature before resolving the environment.
+### `v242` (tag `v2.4.2`, Python 3.10)
+- Environment: modern Py3 toolchain derived from `environment_py3_osx.yml`
+  (MPI packages intentionally omitted in Pixi because sandboxed runs lack NIC access).
+- Bootstrap: `scripts/bootstrap-parcels-v242.sh` first installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export both `PYTHONPATH=./parcels-v242` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v242/docs/examples`, and keep browser auto-open disabled.
+- Notes: If users need MPI locally they can add `mpi4py/mpich` to the Pixi
+  feature before running `pixi install`; leave them out by default for portability.
