@@ -2,8 +2,8 @@
 
 ## Quick-start
 
-This repo contains Pixi-managed Python 2.7 environments plus OceanParcels
-submodules (tracked at tags `v0.9` and `v1.1.1`). To run either checkout:
+This repo contains Pixi-managed Python 2.7/3.10 environments plus OceanParcels
+submodules (tracked at tags `v0.9`, `v1.1.1`, and `v2.4.2`). To run any checkout:
 
 ```bash
 # install/update the parcels-v09 environment
@@ -24,6 +24,18 @@ pixi run bootstrap-v111
 
 # run Python with the local parcels-v111 package
 pixi run parcels-v111-python parcels-v111/parcels/examples/example_brownian.py
+
+# install/update the parcels-v242 environment (Python 3.10 + OceanParcels v2.4.2)
+pixi install -e parcels-v242
+# install pip-only deps (setuptools_scm_git_archive) and build the editable install
+pixi run bootstrap-v242
+
+# run Python with the local parcels-v242 package
+pixi run parcels-v242-python -c 'import parcels; print("Loaded parcels", parcels.__version__)'
+pixi run parcels-v242-python parcels-v242/docs/examples/example_brownian.py
+
+# launch the headless-friendly notebook UI rooted at docs/examples
+pixi run parcels-v242-notebook
 ```
 
 The `parcels-v09-python` task simply wraps `python` while setting
@@ -38,3 +50,14 @@ other legacy notebook) without additional path tweaks.
 `parcels-v111-python` and `parcels-v111-notebook` behave identically but target
 the submodule checked out at tag `v1.1.1`. The notebooks for that release live under
 `parcels-v111/parcels/examples`, so the task already points Jupyter there.
+
+`parcels-v242-python` and `parcels-v242-notebook` expose the modern v2.4.2 codebase on
+Python 3.10. The commands use `PYTHONPATH=./parcels-v242` so changes to the vendored
+tree are imported immediately, and they export `MPLCONFIGDIR=$PWD/.cache/matplotlib`
+so Matplotlib never tries to write into a read-only `$HOME`. The v2 examples and
+notebooks live in `parcels-v242/docs/examples`, which is where the notebook server
+launches from and what the README snippets use as the working directory.
+MPI tooling (`mpi4py`, `mpich`) is intentionally omitted from the default feature
+because it cannot run inside the sandboxed environment; if you need it locally you
+can extend the `parcels-v242` feature with Conda MPI packages before calling
+`pixi install`.
