@@ -19,3 +19,12 @@ For `v1.1.1`, the same pattern applies with a second feature (`parcels-v111`) pl
 
 Add future releases by cloning another submodule, defining a feature/environment pair, capturing any pip-only needs in a bootstrap script, and documenting the workflow in the README.
 
+---
+
+For the latest v2 line (tag `v2.4.2`):
+
+- New submodule lives at `parcels-v242/` and has its own Pixi feature/environment with Python 3.10 plus the conda packages from `environment_py3_osx.yml` (minus MPI drivers, which cannot run in the sandbox).
+- All tasks (`bootstrap-v242`, `parcels-v242-python`, `parcels-v242-notebook`) live under that feature. Both runtime tasks set `PYTHONPATH=./parcels-v242` and `MPLCONFIGDIR=$PWD/.cache/matplotlib` to keep imports editable and Matplotlib caches writable.
+- `scripts/bootstrap-parcels-v242.sh` installs the pip-only `setuptools_scm_git_archive` helper and then runs `pip install -e parcels-v242` so `parcels._version` is generated correctly.
+- The modern examples and notebooks now live under `parcels-v242/docs/examples`, so the notebook task points there and the README examples reference that directory.
+- MPI support is disabled by default; document that users who really need `mpi4py`/`mpich` can add them manually to the feature before resolving the environment.
