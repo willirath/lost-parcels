@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [environments]
 parcels-v09 = { features = ["parcels-v09"] }
+parcels-v111 = { features = ["parcels-v111"] }
 
 [feature.parcels-v09.tasks.bootstrap-v09]
 cmd = "pip install 'cgen<2020' 'progressbar<3' 'pymbolic<2020'"
@@ -34,3 +35,39 @@ click = "7.*"
 future = ">=0.18.2,<0.19"
 enum34 = ">=1.1.10,<2"
 notebook = "<6"
+
+[feature.parcels-v111.tasks.bootstrap-v111]
+cmd = "bash scripts/bootstrap-parcels-v111.sh"
+
+[feature.parcels-v111.tasks.parcels-v111-python]
+cmd = 'env PYTHONPATH="$PWD/parcels-v111" python'
+
+[feature.parcels-v111.tasks.parcels-v111-notebook]
+cmd = 'env PYTHONPATH="$PWD/parcels-v111" jupyter notebook --notebook-dir=parcels-v111/examples --NotebookApp.open_browser=False'
+
+[feature.parcels-v111.dependencies]
+python = "2.7.*"
+pip = ">=20.1.1,<21"
+setuptools = "<45"
+wheel = "<0.35"
+cython = "<0.29"
+numpy = "1.16.*"
+scipy = "1.2.*"
+netcdf4 = "1.5.*"
+libnetcdf = ">=4.7.3,<5"
+xarray = "0.11.*"
+dask = "1.2.*"
+pytest = "<5"
+click = "7.*"
+future = ">=0.18.2,<0.19"
+enum34 = ">=1.1.10,<2"
+notebook = "<6"
+cachetools = ">=1,<6"
+matplotlib = "2.2.*"
+cftime = ">=1.0,<2"
+python-dateutil = "2.8.*"
+six = "1.16.*"
+progressbar2 = "<4"
+
+[dependencies]
+netcdftime = ">=1.0.0a2,<2"
