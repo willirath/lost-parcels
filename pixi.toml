@@ -44,10 +44,10 @@ netcdftime = ">=1.0.0a2,<2"
 cmd = "bash scripts/bootstrap-parcels-v105.sh"
 
 [feature.parcels-v105.tasks.parcels-v105-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v105" python'
+cmd = 'env PYTHONPATH="$PWD/parcels-v105" MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
 
 [feature.parcels-v105.tasks.parcels-v105-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v105" jupyter notebook --notebook-dir="$PWD/parcels-v105/parcels/examples" --NotebookApp.open_browser=False'
+cmd = 'env PYTHONPATH="$PWD/parcels-v105" MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v105/parcels/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v105.dependencies]
 python = "2.7.*"
@@ -69,7 +69,7 @@ notebook = "<6"
 netcdftime = ">=1.0.0a2,<2"
 cachetools = ">=1,<6"
 matplotlib = "2.2.*"
-python-dateutil = ">=2,<3"
+python-dateutil = "2.8.*"
 six = ">=1.10.0,<2"
 progressbar2 = "<4"
 
