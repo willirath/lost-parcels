@@ -36,4 +36,5 @@ module, or example from the submodule (e.g.
 other legacy notebook) without additional path tweaks.
 
 `parcels-v111-python` and `parcels-v111-notebook` behave identically but target
-the submodule checked out at tag `v1.1.1`.
+the submodule checked out at tag `v1.1.1`. The notebooks for that release live under
+`parcels-v111/parcels/examples`, so the task already points Jupyter there.

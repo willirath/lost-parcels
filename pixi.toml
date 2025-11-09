@@ -43,7 +43,7 @@ cmd = "bash scripts/bootstrap-parcels-v111.sh"
 cmd = 'env PYTHONPATH="$PWD/parcels-v111" python'
 
 [feature.parcels-v111.tasks.parcels-v111-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v111" jupyter notebook --notebook-dir=parcels-v111/examples --NotebookApp.open_browser=False'
+cmd = 'env PYTHONPATH="$PWD/parcels-v111" jupyter notebook --notebook-dir="$PWD/parcels-v111/parcels/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v111.dependencies]
 python = "2.7.*"

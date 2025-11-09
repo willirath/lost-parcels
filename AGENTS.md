@@ -15,6 +15,7 @@ For `v1.1.1`, the same pattern applies with a second feature (`parcels-v111`) pl
 - Editable install is required because the package imports `parcels._version`. The bootstrap task now calls `scripts/bootstrap-parcels-v111.sh`, which installs the pip-only deps and then runs `pip install -e parcels-v111`.
 - Extra conda deps (`cachetools`, `matplotlib 2.2.*`, `netcdftime`, `progressbar2`, etc.) come from the historic `environment_py2_osx.yml`.
 - Tasks `parcels-v111-python` / `parcels-v111-notebook` mirror the v0.9 ones but point to the new submodule path.
+- Notebooks live under `parcels-v111/parcels/examples`, so the Pixi task points Jupyter at that subdirectory instead of the top-level `examples`.
 
 Add future releases by cloning another submodule, defining a feature/environment pair, capturing any pip-only needs in a bootstrap script, and documenting the workflow in the README.
 
