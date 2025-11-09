@@ -28,7 +28,7 @@ pixi install -e parcels-$PARCELS_SLUG
 pixi run bootstrap-$PARCELS_SLUG
 
 # run scripts or modules bundled with that checkout
-pixi run parcels-$PARCELS_SLUG-python -c 'import parcels; print(parcels.__version__)'
+pixi run parcels-$PARCELS_SLUG-python -c 'import parcels; print("Loaded parcels from:", parcels.__file__)'
 pixi run parcels-$PARCELS_SLUG-python parcels-$PARCELS_SLUG/.../example_brownian.py
 
 # start the matching notebook server (headless friendly)
