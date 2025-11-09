@@ -1,4 +1,6 @@
-# 2025-11-09 Lost Parcels
+# Lost Parcels
+
+Providing environments for exploring old [OceanParcels / Parcels](https://parcels-code.org) releases.
 
 ## Workflow Overview
 
