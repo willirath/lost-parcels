@@ -5,13 +5,17 @@ name = "2025-11-09_oldparcels"
 platforms = ["osx-64"]
 version = "0.1.0"
 
-[tasks]
+[environments]
+parcels-v09 = { features = ["parcels-v09"] }
 
-[tasks.parcels-python]
+[feature.parcels-v09.tasks.bootstrap-v09]
+cmd = "pip install 'cgen<2020' 'progressbar<3' 'pymbolic<2020'"
+
+[feature.parcels-v09.tasks.parcels-v09-python]
 cmd = "python"
-env = { PYTHONPATH = "./parcels" }
+env = { PYTHONPATH = "./parcels-v09" }
 
-[dependencies]
+[feature.parcels-v09.dependencies]
 python = "2.7.*"
 pip = ">=20.1.1,<21"
 setuptools = "<45"

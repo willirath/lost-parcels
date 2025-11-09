@@ -3,6 +3,10 @@ environments:
   default:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  parcels-v09:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
     packages:
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/atomicwrites-1.4.0-pyh9f0ad1d_0.tar.bz2
