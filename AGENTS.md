@@ -4,6 +4,9 @@
 
 Use this checklist whenever a new OceanParcels release is added:
 
+**Important**: Always work on a separate branch when making changes. The main branch
+is protected and requires pull requests for all updates.
+
 1. **Clone the submodule** at `parcels-vXYZ/` (name = `parcels-v{slug}`). Checkout
    the upstream tag you care about and add it to `.gitmodules`.
 2. **Define a Pixi feature/environment** named `parcels-vXYZ`. Keep the version’s
@@ -11,13 +14,13 @@ Use this checklist whenever a new OceanParcels release is added:
    when possible.
 3. **Add three Pixi tasks** under that feature:
    - `bootstrap-vXYZ` → calls `scripts/bootstrap-parcels-vXYZ.sh`.
-   - `parcels-vXYZ-python` → sets `PYTHONPATH=$PWD/parcels-vXYZ` (plus any
-     extra env like `MPLCONFIGDIR`) and runs `python`.
-   - `parcels-vXYZ-notebook` → same env setup, points Jupyter at the correct
-     examples directory, and disables browser launch.
+   - `parcels-vXYZ-python` → runs `python` (optionally setting `MPLCONFIGDIR` for
+     matplotlib cache management).
+   - `parcels-vXYZ-notebook` → points Jupyter at the correct examples directory
+     and disables browser launch (optionally setting `MPLCONFIGDIR`).
 4. **Write the bootstrap script** to install any pip-only packages and finish
-   with `pip install -e parcels-vXYZ` whenever the package expects `_version`
-   files. Shell scripts keep the Pixi config consistent.
+   with `pip install -e parcels-vXYZ`. The editable install ensures edits to the
+   submodule are immediately importable. Shell scripts keep the Pixi config consistent.
 5. **Document the release** in `README.md` and update this file to note any
    quirks (extra pip deps, notebook paths, MPI requirements, etc.).
 6. **Headless hygiene**: ensure every runtime task avoids launching browsers,
@@ -32,10 +35,10 @@ entries and a short README/agent blurb.
 ### `v09` (tag `v0.9`, Python 2.7)
 - Environment: legacy Py2 stack with `pixi install -e parcels-v09`.
 - Bootstrap: `scripts/bootstrap-parcels-v09.sh` installs the PyPI-only wheels
-  (`cgen<2020`, `progressbar<3`, `pymbolic<2020`).
-- Runtime tasks: `parcels-v09-python` / `parcels-v09-notebook` set
-  `PYTHONPATH=./parcels-v09` and run inside `parcels-v09/examples`.
-- Notes: no editable install required, but notebooks must keep
+  (`cgen<2020`, `progressbar<3`, `pymbolic<2020`). and runs `pip install -e parcels-v09`.
+- Runtime tasks: `parcels-v09-python` / `parcels-v09-notebook` use the editable install
+  and point notebooks at `parcels-v09/examples`.
+- Notes: Notebooks disable auto-browser launch with
   `--NotebookApp.open_browser=False`.
 
 ### `v105` (tag `v1.0.5`, Python 2.7)

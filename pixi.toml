@@ -16,10 +16,10 @@ parcels-v314 = { features = ["parcels-v314"] }
 cmd = "bash scripts/bootstrap-parcels-v09.sh"
 
 [feature.parcels-v09.tasks.parcels-v09-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v09" python'
+cmd = 'python'
 
 [feature.parcels-v09.tasks.parcels-v09-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v09" jupyter notebook --notebook-dir=parcels-v09/examples --NotebookApp.open_browser=False'
+cmd = 'jupyter notebook --notebook-dir=parcels-v09/examples --NotebookApp.open_browser=False'
 
 [feature.parcels-v09.dependencies]
 python = "2.7.*"
@@ -44,10 +44,10 @@ netcdftime = ">=1.0.0a2,<2"
 cmd = "bash scripts/bootstrap-parcels-v105.sh"
 
 [feature.parcels-v105.tasks.parcels-v105-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v105" MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
 
 [feature.parcels-v105.tasks.parcels-v105-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v105" MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v105/parcels/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v105/parcels/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v105.dependencies]
 python = "2.7.*"
@@ -77,10 +77,10 @@ progressbar2 = "<4"
 cmd = "bash scripts/bootstrap-parcels-v111.sh"
 
 [feature.parcels-v111.tasks.parcels-v111-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v111" python'
+cmd = 'python'
 
 [feature.parcels-v111.tasks.parcels-v111-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v111" jupyter notebook --notebook-dir="$PWD/parcels-v111/parcels/examples" --NotebookApp.open_browser=False'
+cmd = 'jupyter notebook --notebook-dir="$PWD/parcels-v111/parcels/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v111.dependencies]
 python = "2.7.*"
@@ -111,10 +111,10 @@ progressbar2 = "<4"
 cmd = "bash scripts/bootstrap-parcels-v242.sh"
 
 [feature.parcels-v242.tasks.parcels-v242-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v242" MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
 
 [feature.parcels-v242.tasks.parcels-v242-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v242" MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v242/docs/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v242/docs/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v242.dependencies]
 python = "3.10.*"
@@ -164,10 +164,10 @@ myst-parser = ">=1,<2"
 cmd = "bash scripts/bootstrap-parcels-v314.sh"
 
 [feature.parcels-v314.tasks.parcels-v314-python]
-cmd = 'env PYTHONPATH="$PWD/parcels-v314" MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
 
 [feature.parcels-v314.tasks.parcels-v314-notebook]
-cmd = 'env PYTHONPATH="$PWD/parcels-v314" MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v314.dependencies]
 python = "3.11.*"

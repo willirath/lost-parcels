@@ -8,11 +8,10 @@ Every OceanParcels release in this repo follows the same pattern:
 
 1. Each version lives in `parcels-vXYZ/` (a git submodule checked out at the
    matching upstream tag).
-2. Pixi exposes an environment named `parcels-vXYZ` and three tasks:  
+2. Pixi exposes an environment named `parcels-vXYZ` and three tasks:
    `bootstrap-vXYZ`, `parcels-vXYZ-python`, `parcels-vXYZ-notebook`.
-3. The Python/Jupyter tasks run directly from the vendored sources by setting
-   `PYTHONPATH=$PWD/parcels-vXYZ`, so any edits to the submodule are immediately
-   importable.
+3. The bootstrap script installs parcels in editable mode (`pip install -e`),
+   so any edits to the submodule are immediately importable without reinstalling.
 
 ### Common commands
 
@@ -53,9 +52,9 @@ module, or notebook you want to run.
 
 **`v09`**  
 - Minimal Python 2.7 stack mirroring the 2017 OceanParcels release.  
-- Bootstrap script installs the few remaining PyPI-only wheels every time the
-  env is recreated.  
-- Runtime tasks keep `PYTHONPATH=./parcels-v09` and disable automatic browser
+- Bootstrap script installs the PyPI-only wheels (`cgen`, `progressbar`, `pymbolic`)
+  and performs an editable install.
+- Runtime tasks disable automatic browser
   launches for the legacy notebook server.
 
 **`v105`**
