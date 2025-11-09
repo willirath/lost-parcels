@@ -2,5 +2,10 @@
 .pixi/*
 !.pixi/config.toml
 
+# cache outputs (keep placeholder .gitkeep files)
+.cache/*
+!.cache/
+!.cache/**/.gitkeep
+
 # example outputs
 *.nc
