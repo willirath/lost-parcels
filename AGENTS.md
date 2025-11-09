@@ -58,3 +58,14 @@ entries and a short README/agent blurb.
   `parcels-v242/docs/examples`, and keep browser auto-open disabled.
 - Notes: If users need MPI locally they can add `mpi4py/mpich` to the Pixi
   feature before running `pixi install`; leave them out by default for portability.
+
+### `v314` (tag `v3.1.4`, Python 3.11)
+- Environment: mirrors the upstream `environment.yml` for the PyProject-based
+  release (Notebook 7, typing extras, docs stack, but still no MPI).
+- Bootstrap: `scripts/bootstrap-parcels-v314.sh` simply runs
+  `pip install -e parcels-v314` because setuptools-scm is already part of the
+  environment.
+- Runtime tasks: same headless env vars as v242 (`PYTHONPATH` + `MPLCONFIGDIR`)
+  but point at `parcels-v314/docs/examples`.
+- Notes: Includes newer tooling (`trajan`, `mypy`, `types-*`) so contributors can
+  run docs/tests locally without additional installs.

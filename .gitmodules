@@ -7,3 +7,6 @@
 [submodule "parcels-v242"]
 	path = parcels-v242
 	url = https://github.com/OceanParcels/parcels.git
+[submodule "parcels-v314"]
+	path = parcels-v314
+	url = https://github.com/OceanParcels/parcels.git

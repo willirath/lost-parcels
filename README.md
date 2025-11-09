@@ -16,7 +16,7 @@ Every OceanParcels release in this repo follows the same pattern:
 
 ### Common commands
 
-Pick a slug (`v09`, `v111`, `v242`, …) from the table below and run:
+Pick a slug (`v09`, `v111`, `v242`, `v314`, …) from the table below and run:
 
 ```bash
 export PARCELS_SLUG=v242   # or v09 / v111 / …
@@ -46,6 +46,7 @@ module, or notebook you want to run.
 | `v09`  | `v0.9`   | 2.7 | `parcels-v09/examples` | `scripts/bootstrap-parcels-v09.sh` | Installs legacy pip-only wheels (`cgen`, `progressbar`, `pymbolic`). |
 | `v111` | `v1.1.1` | 2.7 | `parcels-v111/parcels/examples` | `scripts/bootstrap-parcels-v111.sh` | Builds an editable install because the package imports `parcels._version`. |
 | `v242` | `v2.4.2` | 3.10 | `parcels-v242/docs/examples` | `scripts/bootstrap-parcels-v242.sh` | Uses modern Py3 stack; Matplotlib caches under `.cache/matplotlib`. |
+| `v314` | `v3.1.4` | 3.11 | `parcels-v314/docs/examples` | `scripts/bootstrap-parcels-v314.sh` | Latest v3 release; Notebook 7 + docs/examples layout. |
 
 ### Release notes
 
@@ -73,3 +74,12 @@ module, or notebook you want to run.
   and notebooks.  
 - MPI tooling (`mpi4py`, `mpich`) is intentionally omitted from the default
   feature; add them yourself if you run outside sandboxed environments.
+
+**`v314`**  
+- Modern v3.1.4 release tracked from the PyProject-based tree (Python 3.11).  
+- Bootstrap script just runs `pip install -e parcels-v314` because the build now
+  ships with `pyproject.toml`.  
+- Runtime tasks keep the same headless settings as v242, export `MPLCONFIGDIR`
+  for Matplotlib caches, and point Jupyter at `parcels-v314/docs/examples`.  
+- Extra tooling (`trajan`, `mypy`, `types-*`, Notebook 7) is available directly
+  in the Pixi environment for parity with the upstream `environment.yml`.
