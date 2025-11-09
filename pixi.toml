@@ -12,8 +12,10 @@ parcels-v09 = { features = ["parcels-v09"] }
 cmd = "pip install 'cgen<2020' 'progressbar<3' 'pymbolic<2020'"
 
 [feature.parcels-v09.tasks.parcels-v09-python]
-cmd = "python"
-env = { PYTHONPATH = "./parcels-v09" }
+cmd = 'env PYTHONPATH="$PWD/parcels-v09" python'
+
+[feature.parcels-v09.tasks.parcels-v09-notebook]
+cmd = 'env PYTHONPATH="$PWD/parcels-v09" jupyter notebook --notebook-dir=parcels-v09/examples --NotebookApp.open_browser=False'
 
 [feature.parcels-v09.dependencies]
 python = "2.7.*"
@@ -31,3 +33,4 @@ pytest = "<5"
 click = "7.*"
 future = ">=0.18.2,<0.19"
 enum34 = ">=1.1.10,<2"
+notebook = "<6"
