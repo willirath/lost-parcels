@@ -11,7 +11,7 @@ parcels-v111 = { features = ["parcels-v111"] }
 parcels-v242 = { features = ["parcels-v242"] }
 
 [feature.parcels-v09.tasks.bootstrap-v09]
-cmd = "pip install 'cgen<2020' 'progressbar<3' 'pymbolic<2020'"
+cmd = "bash scripts/bootstrap-parcels-v09.sh"
 
 [feature.parcels-v09.tasks.parcels-v09-python]
 cmd = 'env PYTHONPATH="$PWD/parcels-v09" python'
