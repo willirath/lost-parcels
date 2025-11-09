@@ -44,6 +44,7 @@ module, or notebook you want to run.
 | Slug | Upstream tag | Python | Notebook root | Bootstrap script | Notes |
 | ---- | ------------ | ------ | ------------- | ---------------- | ----- |
 | `v09`  | `v0.9`   | 2.7 | `parcels-v09/examples` | `scripts/bootstrap-parcels-v09.sh` | Installs legacy pip-only wheels (`cgen`, `progressbar`, `pymbolic`). |
+| `v105` | `v1.0.5` | 2.7 | `parcels-v105/parcels/examples` | `scripts/bootstrap-parcels-v105.sh` | First stable v1.0.x release; editable install for `_version` generation. |
 | `v111` | `v1.1.1` | 2.7 | `parcels-v111/parcels/examples` | `scripts/bootstrap-parcels-v111.sh` | Builds an editable install because the package imports `parcels._version`. |
 | `v242` | `v2.4.2` | 3.10 | `parcels-v242/docs/examples` | `scripts/bootstrap-parcels-v242.sh` | Uses modern Py3 stack; Matplotlib caches under `.cache/matplotlib`. |
 | `v314` | `v3.1.4` | 3.11 | `parcels-v314/docs/examples` | `scripts/bootstrap-parcels-v314.sh` | Latest v3 release; Notebook 7 + docs/examples layout. |
@@ -57,7 +58,16 @@ module, or notebook you want to run.
 - Runtime tasks keep `PYTHONPATH=./parcels-v09` and disable automatic browser
   launches for the legacy notebook server.
 
-**`v111`**  
+**`v105`**
+- Stable v1.0.x release (Python 2.7) representing the first production-ready v1 line.
+- Environment mirrors `environment_py2_osx.yml` with dependencies from the upstream tag
+  (matplotlib 2.2.* used for conda-forge compatibility).
+- Bootstrap script installs pip-only wheels (`cgen<2020`, `pymbolic<2020`, `progressbar2<4`)
+  then runs `pip install -e parcels-v105` to generate `parcels._version`.
+- Notebook task points at `parcels-v105/parcels/examples` for v1.0.5 example notebooks.
+- Bridges the gap between v0.9 (early experimental) and v1.1.1 (mature v1.x).
+
+**`v111`**
 - Adds the extra historic dependencies from `environment_py2_osx.yml` and still
   targets Python 2.7.  
 - Bootstrap script installs the pip-only wheels, then runs

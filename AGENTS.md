@@ -38,6 +38,17 @@ entries and a short README/agent blurb.
 - Notes: no editable install required, but notebooks must keep
   `--NotebookApp.open_browser=False`.
 
+### `v105` (tag `v1.0.5`, Python 2.7)
+- Environment: Py2 stack mirroring the upstream `environment_py2_osx.yml` with
+  additional dependencies like `cachetools`, `matplotlib 2.2.*`, `progressbar2`.
+- Bootstrap: `scripts/bootstrap-parcels-v105.sh` installs the pip-only wheels
+  (`cgen<2020`, `pymbolic<2020`, `progressbar2<4`) and runs `pip install -e parcels-v105`
+  to generate `parcels._version` (required for imports).
+- Runtime tasks: point Jupyter at `parcels-v105/parcels/examples` and set
+  `PYTHONPATH=./parcels-v105`, with headless notebook settings.
+- Notes: First stable v1.0.x release; sits between v0.9 and v1.1.1 chronologically.
+  Requires editable install like v1.1.1 due to `_version` dependency.
+
 ### `v111` (tag `v1.1.1`, Python 2.7)
 - Environment: extends the Py2 stack with the extra packages from
   `environment_py2_osx.yml` (e.g. `cachetools`, `progressbar2`, `matplotlib 2.2.*`).
