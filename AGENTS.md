@@ -30,6 +30,15 @@ is protected and requires pull requests for all updates.
 Following this pattern means future releases only need new submodule + feature
 entries and a short README/agent blurb.
 
+## Submodule workflow
+
+- All `parcels-v*` directories are git submodules pinned to upstream tags.
+- Recommend `git clone --recurse-submodules <repo-url>` in the README so
+  contributors land with every release checked out.
+- Remind folks that `git submodule update --init --recursive` reruns safely
+  after pulling, while `git submodule update --remote` refreshes to the newest
+  upstream tags when a new release directory is added.
+
 ## Current releases
 
 ### `v09` (tag `v0.9`, Python 2.7)
