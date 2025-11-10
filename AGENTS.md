@@ -1,5 +1,23 @@
 # Lost Parcels Agent Notes
 
+## Version Coverage Status
+
+Goal: Support the latest patch version of each minor version of OceanParcels.
+
+### Supported Versions
+- ✓ v0.9 (2017-07-06) - Latest v0.x, Python 2.7
+- ✓ v1.0.5 (2018-08-24) - Latest v1.0.x, Python 2.7
+- ✓ v1.1.1 (2018-10-03) - Latest v1.1.x, Python 2.7
+- ✓ v2.0.0 (2019-06-26) - Latest v2.0.x, Python 3.6
+- ✓ v2.1.5 (2020-04-08) - Latest v2.1.x, Python 3.7
+- ✓ v2.2.2 (2021-02-04) - Latest v2.2.x, Python 3.8
+- ✓ v2.3.2 (2022-08-30) - Latest v2.3.x, Python 3.9
+- ✓ v2.4.2 (2023-06-06) - Latest v2.4.x, Python 3.10
+- ✓ v3.0.6 (2024-10-07) - Latest v3.0.x, Python 3.10
+- ✓ v3.1.4 (2025-08-07) - Latest v3.1.x, Python 3.11
+
+### Missing Versions (to be added)
+
 ## Per-version playbook
 
 Use this checklist whenever a new OceanParcels release is added:
@@ -70,6 +88,54 @@ entries and a short README/agent blurb.
   notebooks resolve resources correctly.
 - Notes: same headless settings as v0.9; keep Python 2.7 tooling pinned.
 
+### `v200` (tag `v2.0.0`, Python 3.6)
+- Environment: First stable v2 release with Python 3 support, derived from
+  `environment_py3_osx.yml`. Uses older package versions suitable for Python 3.6.
+- Bootstrap: `scripts/bootstrap-parcels-v200.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v200` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v200/parcels/examples`, and keep browser auto-open disabled.
+- Notes: First stable v2.0 release, requires setuptools-scm for version
+  generation. Uses older numpy/scipy/xarray versions compatible with Python 3.6.
+
+
+### `v215` (tag `v2.1.5`, Python 3.7)
+- Environment: Python 3.7 stack with scikit-learn added, derived from
+  `environment_py3_osx.yml`. Includes MPI support in upstream but omitted in Pixi.
+- Bootstrap: `scripts/bootstrap-parcels-v215.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v215` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v215/parcels/examples`, and keep browser auto-open disabled.
+- Notes: Latest v2.1.x release, adds scikit-learn dependency. Uses dask>=2.0
+  and updated package versions compatible with Python 3.7.
+
+### `v222` (tag `v2.2.2`, Python 3.8)
+- Environment: Python 3.8 stack with pykdtree added, derived from
+  `environment_py3_osx.yml`. Updated cftime requirement to >=1.3.1.
+- Bootstrap: `scripts/bootstrap-parcels-v222.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v222` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v222/parcels/examples`, and keep browser auto-open disabled.
+- Notes: Latest v2.2.x release, adds pykdtree dependency for spatial indexing.
+  Uses updated package versions compatible with Python 3.8.
+
+### `v232` (tag `v2.3.2`, Python 3.9)
+- Environment: Python 3.9 stack with zarr, psutil, and tqdm added, derived from
+  `environment_py3_osx.yml`. Uses matplotlib-base instead of full matplotlib.
+- Bootstrap: `scripts/bootstrap-parcels-v232.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v232` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v232/parcels/examples`, and keep browser auto-open disabled.
+- Notes: Latest v2.3.x release, adds zarr for chunked array storage, psutil for
+  system monitoring, and tqdm for progress bars. Updated package versions for Python 3.9.
 ### `v242` (tag `v2.4.2`, Python 3.10)
 - Environment: modern Py3 toolchain derived from `environment_py3_osx.yml`
   (MPI packages intentionally omitted in Pixi because sandboxed runs lack NIC access).
