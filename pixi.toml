@@ -11,6 +11,13 @@ parcels-v105 = { features = ["parcels-v105"] }
 parcels-v111 = { features = ["parcels-v111"] }
 parcels-v242 = { features = ["parcels-v242"] }
 parcels-v314 = { features = ["parcels-v314"] }
+example-data = { features = ["example-data"] }
+
+[feature.example-data.tasks.bootstrap-example-data]
+cmd = 'env PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" python scripts/bootstrap-example-data.py'
+
+[feature.example-data.dependencies]
+python = "3.11.*"
 
 [feature.parcels-v09.tasks.bootstrap-v09]
 cmd = "bash scripts/bootstrap-parcels-v09.sh"
@@ -111,10 +118,10 @@ progressbar2 = "<4"
 cmd = "bash scripts/bootstrap-parcels-v242.sh"
 
 [feature.parcels-v242.tasks.parcels-v242-python]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" python'
 
 [feature.parcels-v242.tasks.parcels-v242-notebook]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v242/docs/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" jupyter notebook --notebook-dir="$PWD/parcels-v242/docs/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v242.dependencies]
 python = "3.10.*"
@@ -164,10 +171,10 @@ myst-parser = ">=1,<2"
 cmd = "bash scripts/bootstrap-parcels-v314.sh"
 
 [feature.parcels-v314.tasks.parcels-v314-python]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" python'
 
 [feature.parcels-v314.tasks.parcels-v314-notebook]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v314.dependencies]
 python = "3.11.*"

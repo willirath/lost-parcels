@@ -25,57 +25,29 @@ will pull down the matching `parcels-vXYZ/` contents so Pixi can see them.
 
 ## Download tutorial datasets
 
-We keep every NetCDF bundle in a single cache outside of the submodules and then
-symlink the legacy paths that older releases expect. That way, you only have to
-download the data once and newer releases can continue reusing it even if the
-upstream URLs disappear.
+This repo keeps a single cache of example NetCDF bundles under
+`.cache/parcels-example-data` and wires every release up to that location. Run
+the global bootstrap task once to fill the cache:
 
-1. Pick a cache (default is `./.cache/parcels-example-data`) and tell Pixi where
-   it lives:
+```bash
+pixi run bootstrap-example-data
+```
 
-   ```bash
-   export PARCELS_DATA_CACHE="$PWD/.cache/parcels-example-data"
-   export PARCELS_EXAMPLE_DATA="$PARCELS_DATA_CACHE"
-   mkdir -p "$PARCELS_DATA_CACHE"
-   ```
+The downloader skips files that already exist, so you can re-run it after a pull
+to grab newly added datasets without re-touching the old ones.
 
-2. Download the union of all datasets by reusing the latest Parcels helper
-   (adjust the loop if you only need a subset):
-
-   ```bash
-   env PARCELS_EXAMPLE_DATA="$PARCELS_DATA_CACHE" \
-     pixi run parcels-v314-python <<'PY'
-   from parcels import download_example_dataset, list_example_datasets
-   for dataset in list_example_datasets():
-       download_example_dataset(dataset)
-   PY
-   ```
-
-3. Create symlinks for the Python 2 releases so they continue to find the data
-   under `parcels-vXYZ/parcels/examples`:
-
-   ```bash
-   PARCELS_EXAMPLE_DATA="$PARCELS_DATA_CACHE" bash scripts/link-example-data.sh
-   ```
-
-   The script links the directories required by `v09`, `v105`, and `v111`
-   (moving them out of the submodule trees if necessary) while leaving the
-   shared cache untouched.
-
-4. When running the Python 3 releases (`v242`, `v314`), keep
-   `PARCELS_EXAMPLE_DATA` exported so their `parcels.download_example_dataset`
-   calls reuse the cache instead of trying to download everything again.
-
-The helper functions skip files that already exist, so re-running these commands
-after a pull only grabs newly added datasets. Keeping the cache inside the repo
-(`.cache/…`) prevents writes to `$HOME` on headless runners.
+Every `pixi run bootstrap-vXYZ` command automatically re-links the cache inside
+the legacy `parcels-vXYZ/parcels/examples/*` paths (where the Py2 releases
+expect the data). The modern Py3 tasks (`parcels-v242-*`, `parcels-v314-*`)
+export `PARCELS_EXAMPLE_DATA=$PWD/.cache/parcels-example-data`, so the shared
+cache is also visible to their `parcels.download_example_dataset(...)` helper.
 
 Current dataset folders: `MovingEddies_data`, `OFAM_example_data`,
 `Peninsula_data`, `GlobCurrent_example_data`, `DecayingMovingEddy_data`,
 `NemoCurvilinear_data`, `MITgcm_example_data`, `NemoNorthSeaORCA025-N006_data`,
 `POPSouthernOcean_data`, `SWASH_data`, `WOA_data`, and `CROCOidealized_data`
-(`CROCO` is only used by `v314`). Update this list + the linking script whenever
-new upstream tutorials reference additional data.
+(`CROCO` is only used by `v314`). Update this list and the helper scripts
+whenever new upstream tutorials reference additional data.
 
 ## Workflow Overview
 

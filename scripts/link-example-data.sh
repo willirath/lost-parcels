@@ -3,6 +3,15 @@
 # Link release-local example-data folders to the shared cache under ./.cache.
 set -euo pipefail
 
+usage() {
+  cat <<'EOF'
+Usage: scripts/link-example-data.sh [slug ...]
+
+Create symlinks from release-local example directories into the shared cache.
+If no slug is provided, every supported release is linked.
+EOF
+}
+
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/.." && pwd)"
 
@@ -11,9 +20,20 @@ DATA_CACHE="${PARCELS_EXAMPLE_DATA:-$data_cache_default}"
 
 if [[ ! -d "$DATA_CACHE" ]]; then
   echo "Dataset cache '$DATA_CACHE' not found."
-  echo "Download the bundles first (see README 'Download tutorial datasets')."
+  echo "Run 'pixi run bootstrap-example-data' first."
   exit 1
 fi
+
+declare -A RELEASE_PATHS=(
+  [v09]="parcels-v09/examples"
+  [v105]="parcels-v105/parcels/examples"
+  [v111]="parcels-v111/parcels/examples"
+)
+
+declare -A RELEASE_DATASETS
+RELEASE_DATASETS[v09]="MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data"
+RELEASE_DATASETS[v105]="MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data"
+RELEASE_DATASETS[v111]="${RELEASE_DATASETS[v105]}"
 
 relpath() {
   python3 - "$1" "$2" <<'PY'
@@ -36,8 +56,8 @@ link_dataset() {
   mkdir -p "$target_dir"
 
   if [[ ! -d "$source_path" ]]; then
-    echo "warning: dataset '$dataset' missing at '$source_path'; skip link for $target_path" >&2
-    return
+    echo "error: dataset '$dataset' missing at '$source_path'. Run 'pixi run bootstrap-example-data'." >&2
+    return 1
   fi
 
   if [[ -L "$target_path" || -e "$target_path" ]]; then
@@ -47,11 +67,11 @@ link_dataset() {
       local desired
       desired="$(relpath "$source_path" "$target_dir")"
       if [[ "$current" == "$desired" ]]; then
-        return
+        return 0
       fi
     fi
     echo "warning: $target_path already exists; not touching it." >&2
-    return
+    return 0
   fi
 
   local relative
@@ -61,31 +81,44 @@ link_dataset() {
 }
 
 link_release() {
-  local base="$1"
-  shift
+  local slug="$1"
+  local base="${RELEASE_PATHS[$slug]}"
+  local datasets_string="${RELEASE_DATASETS[$slug]}"
   local dataset
-  for dataset in "$@"; do
-    link_dataset "$dataset" "${repo_root}/${base}/${dataset}"
-  done
+  local status=0
+  while read -r dataset; do
+    [[ -z "$dataset" ]] && continue
+    if ! link_dataset "$dataset" "${repo_root}/${base}/${dataset}"; then
+      status=1
+    fi
+  done < <(tr ' ' '\n' <<<"$datasets_string")
+  return $status
 }
 
-link_release "parcels-v09/examples" \
-  "MovingEddies_data" \
-  "OFAM_example_data" \
-  "Peninsula_data" \
-  "GlobCurrent_example_data" \
-  "DecayingMovingEddy_data"
+targets=()
+if [[ $# -eq 0 ]]; then
+  targets=(v09 v105 v111)
+else
+  for slug in "$@"; do
+    if [[ -z "${RELEASE_PATHS[$slug]:-}" ]]; then
+      usage
+      echo "Unknown slug '$slug' (expected: v09, v105, v111)." >&2
+      exit 1
+    fi
+    targets+=("$slug")
+  done
+fi
 
-common_py2_datasets=(
-  "MovingEddies_data"
-  "OFAM_example_data"
-  "Peninsula_data"
-  "GlobCurrent_example_data"
-  "DecayingMovingEddy_data"
-  "NemoCurvilinear_data"
-)
+overall_status=0
+for slug in "${targets[@]}"; do
+  echo "Linking datasets for $slug..."
+  if ! link_release "$slug"; then
+    overall_status=1
+  fi
+done
 
-link_release "parcels-v105/parcels/examples" "${common_py2_datasets[@]}"
-link_release "parcels-v111/parcels/examples" "${common_py2_datasets[@]}"
+if [[ $overall_status -ne 0 ]]; then
+  exit $overall_status
+fi
 
 echo "Symlink refresh complete."

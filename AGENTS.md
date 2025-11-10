@@ -41,18 +41,18 @@ entries and a short README/agent blurb.
 
 ## Tutorial data workflow
 
-- Cache every dataset under `.cache/parcels-example-data` (or a custom
-  `PARCELS_EXAMPLE_DATA`) via the newest helper
-  (`pixi run parcels-v314-python 'download_example_dataset(...)'` loop).
-- Maintain `scripts/link-example-data.sh` so it symlinks the cache into the
-  locations expected by v09/v105/v111 (`parcels-vXYZ/parcels/examples/*`). Keep
-  the dataset lists in that script aligned with the submodule expectations.
-- Ensure the README’s “Download tutorial datasets” section references both the
-  download loop and the symlink script, and remind users to keep
-  `PARCELS_EXAMPLE_DATA` exported when launching the v242/v314 Pixi tasks.
-- When a new upstream release adds or removes dataset folders, update the cache
-  list, the linking script, and the documentation together so the instructions
-  stay accurate.
+- `pixi run bootstrap-example-data` must download the union of datasets into
+  `.cache/parcels-example-data`. Keep `scripts/bootstrap-example-data.py`
+  aligned with the upstream Parcels manifest when releases add/remove folders.
+- Each `scripts/bootstrap-parcels-vXYZ.sh` script calls
+  `scripts/link-example-data.sh <slug>` to wire the shared cache into the legacy
+  `parcels/examples/*` paths that the Py2 releases expect. Update the slug →
+  dataset mapping inside that script whenever requirements change.
+- All v242/v314 Pixi tasks set `PARCELS_EXAMPLE_DATA=$PWD/.cache/parcels-example-data`
+  so their `download_example_dataset()` helper reuses the cache automatically.
+- The README’s tutorial-data section should keep pointing users at
+  `pixi run bootstrap-example-data`, explain that bootstraps relink the cache,
+  and enumerate the currently supported dataset folders.
 
 ## Current releases
 
