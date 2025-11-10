@@ -13,10 +13,10 @@ Goal: Support the latest patch version of each minor version of OceanParcels.
 - ✓ v2.2.2 (2021-02-04) - Latest v2.2.x, Python 3.8
 - ✓ v2.3.2 (2022-08-30) - Latest v2.3.x, Python 3.9
 - ✓ v2.4.2 (2023-06-06) - Latest v2.4.x, Python 3.10
+- ✓ v3.0.6 (2024-10-07) - Latest v3.0.x, Python 3.10
 - ✓ v3.1.4 (2025-08-07) - Latest v3.1.x, Python 3.11
 
 ### Missing Versions (to be added)
-- ☐ v3.0.6 (2024-10-07) - Latest v3.0.x
 
 ## Per-version playbook
 
