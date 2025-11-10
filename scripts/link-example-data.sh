@@ -24,16 +24,41 @@ if [[ ! -d "$DATA_CACHE" ]]; then
   exit 1
 fi
 
-declare -A RELEASE_PATHS=(
-  [v09]="parcels-v09/examples"
-  [v105]="parcels-v105/parcels/examples"
-  [v111]="parcels-v111/parcels/examples"
-)
+get_release_path() {
+  case "$1" in
+    v09)  echo "parcels-v09/examples" ;;
+    v105) echo "parcels-v105/parcels/examples" ;;
+    v111) echo "parcels-v111/parcels/examples" ;;
+    v200) echo "parcels-v200/parcels/examples" ;;
+    v215) echo "parcels-v215/parcels/examples" ;;
+    v222) echo "parcels-v222/parcels/examples" ;;
+    v232) echo "parcels-v232/parcels/examples" ;;
+    *) return 1 ;;
+  esac
+}
 
-declare -A RELEASE_DATASETS
-RELEASE_DATASETS[v09]="MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data"
-RELEASE_DATASETS[v105]="MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data"
-RELEASE_DATASETS[v111]="${RELEASE_DATASETS[v105]}"
+get_release_datasets() {
+  case "$1" in
+    v09)
+      echo "MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data"
+      ;;
+    v105|v111)
+      echo "MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data"
+      ;;
+    v200)
+      echo "MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data MITgcm_example_data"
+      ;;
+    v215|v222)
+      echo "MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data MITgcm_example_data NemoNorthSeaORCA025-N006_data POPSouthernOcean_data"
+      ;;
+    v232)
+      echo "MovingEddies_data OFAM_example_data Peninsula_data GlobCurrent_example_data DecayingMovingEddy_data NemoCurvilinear_data MITgcm_example_data NemoNorthSeaORCA025-N006_data POPSouthernOcean_data SWASH_data WOA_data"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
 
 relpath() {
   python3 - "$1" "$2" <<'PY'
@@ -82,10 +107,23 @@ link_dataset() {
 
 link_release() {
   local slug="$1"
-  local base="${RELEASE_PATHS[$slug]}"
-  local datasets_string="${RELEASE_DATASETS[$slug]}"
+  local base
+  local datasets_string
   local dataset
   local status=0
+
+  base="$(get_release_path "$slug")"
+  if [[ -z "$base" ]]; then
+    echo "error: unknown slug '$slug'" >&2
+    return 1
+  fi
+
+  datasets_string="$(get_release_datasets "$slug")"
+  if [[ -z "$datasets_string" ]]; then
+    echo "error: no datasets defined for '$slug'" >&2
+    return 1
+  fi
+
   while read -r dataset; do
     [[ -z "$dataset" ]] && continue
     if ! link_dataset "$dataset" "${repo_root}/${base}/${dataset}"; then
@@ -97,12 +135,12 @@ link_release() {
 
 targets=()
 if [[ $# -eq 0 ]]; then
-  targets=(v09 v105 v111)
+  targets=(v09 v105 v111 v200 v215 v222 v232)
 else
   for slug in "$@"; do
-    if [[ -z "${RELEASE_PATHS[$slug]:-}" ]]; then
+    if ! get_release_path "$slug" >/dev/null; then
       usage
-      echo "Unknown slug '$slug' (expected: v09, v105, v111)." >&2
+      echo "Unknown slug '$slug' (expected: v09, v105, v111, v200, v215, v222, v232)." >&2
       exit 1
     fi
     targets+=("$slug")
