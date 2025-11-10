@@ -16,3 +16,6 @@
 [submodule "parcels-v200"]
 	path = parcels-v200
 	url = https://github.com/OceanParcels/parcels.git
+[submodule "parcels-v215"]
+	path = parcels-v215
+	url = https://github.com/OceanParcels/parcels.git

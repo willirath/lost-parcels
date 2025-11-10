@@ -10,6 +10,7 @@ parcels-v09 = { features = ["parcels-v09"] }
 parcels-v105 = { features = ["parcels-v105"] }
 parcels-v111 = { features = ["parcels-v111"] }
 parcels-v200 = { features = ["parcels-v200"] }
+parcels-v215 = { features = ["parcels-v215"] }
 parcels-v242 = { features = ["parcels-v242"] }
 parcels-v314 = { features = ["parcels-v314"] }
 
@@ -207,6 +208,45 @@ dask = "<2021"
 cftime = "*"
 pytest = "<4.0"
 nbval = "*"
+
+[feature.parcels-v215.tasks.bootstrap-v215]
+cmd = "bash scripts/bootstrap-parcels-v215.sh"
+
+[feature.parcels-v215.tasks.parcels-v215-python]
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+
+[feature.parcels-v215.tasks.parcels-v215-notebook]
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v215/parcels/examples" --NotebookApp.open_browser=False'
+
+[feature.parcels-v215.dependencies]
+python = "3.7.*"
+pip = ">=19,<21"
+setuptools = ">=40,<50"
+wheel = ">=0.33,<0.36"
+setuptools-scm = ">=3,<5"
+cachetools = ">=1.0.0"
+cgen = "*"
+coverage = "*"
+ffmpeg = ">=3.2.3,<4"
+git = "*"
+jupyter = "*"
+notebook = "<6"
+matplotlib = ">=2.0.2,<3.3"
+netcdf4 = ">=1.1.9,<1.6"
+libnetcdf = ">=4.6,<4.8"
+numpy = ">=1.9.1,<1.20"
+progressbar2 = "*"
+py = ">=1.4.27"
+pymbolic = "*"
+python-dateutil = "*"
+scipy = ">=0.16.0,<1.6"
+six = ">=1.10.0"
+xarray = ">=0.10.8,<0.17"
+dask = ">=2.0,<2021"
+cftime = "*"
+pytest = "<4.0"
+nbval = "*"
+scikit-learn = "*"
 
 [feature.parcels-v314.dependencies]
 python = "3.11.*"
