@@ -9,6 +9,7 @@ version = "0.1.0"
 parcels-v09 = { features = ["parcels-v09"] }
 parcels-v105 = { features = ["parcels-v105"] }
 parcels-v111 = { features = ["parcels-v111"] }
+parcels-v200 = { features = ["parcels-v200"] }
 parcels-v242 = { features = ["parcels-v242"] }
 parcels-v314 = { features = ["parcels-v314"] }
 
@@ -168,6 +169,44 @@ cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
 
 [feature.parcels-v314.tasks.parcels-v314-notebook]
 cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v314/docs/examples" --NotebookApp.open_browser=False'
+
+[feature.parcels-v200.tasks.bootstrap-v200]
+cmd = "bash scripts/bootstrap-parcels-v200.sh"
+
+[feature.parcels-v200.tasks.parcels-v200-python]
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+
+[feature.parcels-v200.tasks.parcels-v200-notebook]
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v200/parcels/examples" --NotebookApp.open_browser=False'
+
+[feature.parcels-v200.dependencies]
+python = "3.6.*"
+pip = ">=19,<21"
+setuptools = ">=40,<45"
+wheel = ">=0.33,<0.35"
+setuptools-scm = ">=3,<4"
+cachetools = ">=1.0.0"
+cgen = "*"
+coverage = "*"
+ffmpeg = ">=3.2.3,<4"
+git = "*"
+jupyter = "*"
+notebook = "<6"
+matplotlib = ">=2.0.2,<3"
+netcdf4 = ">=1.1.9,<1.6"
+libnetcdf = ">=4.6,<4.8"
+numpy = ">=1.9.1,<1.19"
+progressbar2 = "*"
+py = ">=1.4.27"
+pymbolic = "*"
+python-dateutil = "*"
+scipy = ">=0.16.0,<1.5"
+six = ">=1.10.0"
+xarray = ">=0.10.8,<0.16"
+dask = "<2021"
+cftime = "*"
+pytest = "<4.0"
+nbval = "*"
 
 [feature.parcels-v314.dependencies]
 python = "3.11.*"

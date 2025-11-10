@@ -13,3 +13,6 @@
 [submodule "parcels-v105"]
 	path = parcels-v105
 	url = https://github.com/OceanParcels/parcels.git
+[submodule "parcels-v200"]
+	path = parcels-v200
+	url = https://github.com/OceanParcels/parcels.git

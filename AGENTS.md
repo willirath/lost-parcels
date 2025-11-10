@@ -1,5 +1,23 @@
 # Lost Parcels Agent Notes
 
+## Version Coverage Status
+
+Goal: Support the latest patch version of each minor version of OceanParcels.
+
+### Supported Versions
+- ✓ v0.9 (2017-07-06) - Latest v0.x, Python 2.7
+- ✓ v1.0.5 (2018-08-24) - Latest v1.0.x, Python 2.7
+- ✓ v1.1.1 (2018-10-03) - Latest v1.1.x, Python 2.7
+- ✓ v2.0.0 (2019-06-26) - Latest v2.0.x, Python 3.6
+- ✓ v2.4.2 (2023-06-06) - Latest v2.4.x, Python 3.10
+- ✓ v3.1.4 (2025-08-07) - Latest v3.1.x, Python 3.11
+
+### Missing Versions (to be added)
+- ☐ v2.1.5 (2020-04-08) - Latest v2.1.x
+- ☐ v2.2.2 (2021-02-04) - Latest v2.2.x
+- ☐ v2.3.2 (2022-08-30) - Latest v2.3.x
+- ☐ v3.0.6 (2024-10-07) - Latest v3.0.x
+
 ## Per-version playbook
 
 Use this checklist whenever a new OceanParcels release is added:
@@ -69,6 +87,18 @@ entries and a short README/agent blurb.
 - Runtime tasks: point Jupyter at `parcels-v111/parcels/examples` so the bundled
   notebooks resolve resources correctly.
 - Notes: same headless settings as v0.9; keep Python 2.7 tooling pinned.
+
+### `v200` (tag `v2.0.0`, Python 3.6)
+- Environment: First stable v2 release with Python 3 support, derived from
+  `environment_py3_osx.yml`. Uses older package versions suitable for Python 3.6.
+- Bootstrap: `scripts/bootstrap-parcels-v200.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v200` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v200/parcels/examples`, and keep browser auto-open disabled.
+- Notes: First stable v2.0 release, requires setuptools-scm for version
+  generation. Uses older numpy/scipy/xarray versions compatible with Python 3.6.
 
 ### `v242` (tag `v2.4.2`, Python 3.10)
 - Environment: modern Py3 toolchain derived from `environment_py3_osx.yml`
