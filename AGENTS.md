@@ -39,6 +39,21 @@ entries and a short README/agent blurb.
   after pulling, while `git submodule update --remote` refreshes to the newest
   upstream tags when a new release directory is added.
 
+## Tutorial data workflow
+
+- Cache every dataset under `.cache/parcels-example-data` (or a custom
+  `PARCELS_EXAMPLE_DATA`) via the newest helper
+  (`pixi run parcels-v314-python 'download_example_dataset(...)'` loop).
+- Maintain `scripts/link-example-data.sh` so it symlinks the cache into the
+  locations expected by v09/v105/v111 (`parcels-vXYZ/parcels/examples/*`). Keep
+  the dataset lists in that script aligned with the submodule expectations.
+- Ensure the README’s “Download tutorial datasets” section references both the
+  download loop and the symlink script, and remind users to keep
+  `PARCELS_EXAMPLE_DATA` exported when launching the v242/v314 Pixi tasks.
+- When a new upstream release adds or removes dataset folders, update the cache
+  list, the linking script, and the documentation together so the instructions
+  stay accurate.
+
 ## Current releases
 
 ### `v09` (tag `v0.9`, Python 2.7)
