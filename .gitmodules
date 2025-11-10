@@ -22,3 +22,6 @@
 [submodule "parcels-v222"]
 	path = parcels-v222
 	url = https://github.com/OceanParcels/parcels.git
+[submodule "parcels-v232"]
+	path = parcels-v232
+	url = https://github.com/OceanParcels/parcels.git
