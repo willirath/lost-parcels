@@ -341,10 +341,10 @@ zarr = "*"
 cmd = "bash scripts/bootstrap-parcels-v306.sh"
 
 [feature.parcels-v306.tasks.parcels-v306-python]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" python'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" python'
 
 [feature.parcels-v306.tasks.parcels-v306-notebook]
-cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" jupyter notebook --notebook-dir="$PWD/parcels-v306/docs/examples" --NotebookApp.open_browser=False'
+cmd = 'env MPLCONFIGDIR="$PWD/.cache/matplotlib" PARCELS_EXAMPLE_DATA="$PWD/.cache/parcels-example-data" jupyter notebook --notebook-dir="$PWD/parcels-v306/docs/examples" --NotebookApp.open_browser=False'
 
 [feature.parcels-v306.dependencies]
 python = "3.10.*"
