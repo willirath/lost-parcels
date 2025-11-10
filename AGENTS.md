@@ -10,11 +10,11 @@ Goal: Support the latest patch version of each minor version of OceanParcels.
 - ✓ v1.1.1 (2018-10-03) - Latest v1.1.x, Python 2.7
 - ✓ v2.0.0 (2019-06-26) - Latest v2.0.x, Python 3.6
 - ✓ v2.1.5 (2020-04-08) - Latest v2.1.x, Python 3.7
+- ✓ v2.2.2 (2021-02-04) - Latest v2.2.x, Python 3.8
 - ✓ v2.4.2 (2023-06-06) - Latest v2.4.x, Python 3.10
 - ✓ v3.1.4 (2025-08-07) - Latest v3.1.x, Python 3.11
 
 ### Missing Versions (to be added)
-- ☐ v2.2.2 (2021-02-04) - Latest v2.2.x
 - ☐ v2.3.2 (2022-08-30) - Latest v2.3.x
 - ☐ v3.0.6 (2024-10-07) - Latest v3.0.x
 
@@ -112,6 +112,18 @@ entries and a short README/agent blurb.
   `parcels-v215/parcels/examples`, and keep browser auto-open disabled.
 - Notes: Latest v2.1.x release, adds scikit-learn dependency. Uses dask>=2.0
   and updated package versions compatible with Python 3.7.
+
+### `v222` (tag `v2.2.2`, Python 3.8)
+- Environment: Python 3.8 stack with pykdtree added, derived from
+  `environment_py3_osx.yml`. Updated cftime requirement to >=1.3.1.
+- Bootstrap: `scripts/bootstrap-parcels-v222.sh` installs
+  `setuptools_scm_git_archive` (needed for `_version` generation) and then
+  performs the editable install.
+- Runtime tasks: export `PYTHONPATH=./parcels-v222` and
+  `MPLCONFIGDIR=$PWD/.cache/matplotlib`, point notebooks at
+  `parcels-v222/parcels/examples`, and keep browser auto-open disabled.
+- Notes: Latest v2.2.x release, adds pykdtree dependency for spatial indexing.
+  Uses updated package versions compatible with Python 3.8.
 ### `v242` (tag `v2.4.2`, Python 3.10)
 - Environment: modern Py3 toolchain derived from `environment_py3_osx.yml`
   (MPI packages intentionally omitted in Pixi because sandboxed runs lack NIC access).
