@@ -9,7 +9,7 @@ matching upstream release tag. To grab everything in one shot, clone with
 recursive submodules enabled:
 
 ```bash
-git clone --recurse-submodules <repo-url>
+git clone --recurse-submodules https://github.com/willirath/lost-parcels.git
 ```
 
 If you already cloned the repo, or if a new release directory gets added later,
@@ -87,55 +87,18 @@ module, or notebook you want to run.
 
 ## Supported releases
 
-| Slug | Upstream tag | Python | Notebook root | Bootstrap script | Notes |
-| ---- | ------------ | ------ | ------------- | ---------------- | ----- |
-| `v09`  | `v0.9`   | 2.7 | `parcels-v09/examples` | `scripts/bootstrap-parcels-v09.sh` | Installs legacy pip-only wheels (`cgen`, `progressbar`, `pymbolic`). |
-| `v105` | `v1.0.5` | 2.7 | `parcels-v105/parcels/examples` | `scripts/bootstrap-parcels-v105.sh` | First stable v1.0.x release; editable install for `_version` generation. |
-| `v111` | `v1.1.1` | 2.7 | `parcels-v111/parcels/examples` | `scripts/bootstrap-parcels-v111.sh` | Builds an editable install because the package imports `parcels._version`. |
-| `v242` | `v2.4.2` | 3.10 | `parcels-v242/docs/examples` | `scripts/bootstrap-parcels-v242.sh` | Uses modern Py3 stack; Matplotlib caches under `.cache/matplotlib`. |
-| `v314` | `v3.1.4` | 3.11 | `parcels-v314/docs/examples` | `scripts/bootstrap-parcels-v314.sh` | Latest v3 release; Notebook 7 + docs/examples layout. |
+| Slug | Upstream tag | Python | Notebook root | Bootstrap script |
+| ---- | ------------ | ------ | ------------- | ---------------- |
+| `v09`  | `v0.9`   | 2.7  | `parcels-v09/examples` | `scripts/bootstrap-parcels-v09.sh` |
+| `v105` | `v1.0.5` | 2.7  | `parcels-v105/parcels/examples` | `scripts/bootstrap-parcels-v105.sh` |
+| `v111` | `v1.1.1` | 2.7  | `parcels-v111/parcels/examples` | `scripts/bootstrap-parcels-v111.sh` |
+| `v200` | `v2.0.0` | 3.6  | `parcels-v200/parcels/examples` | `scripts/bootstrap-parcels-v200.sh` |
+| `v215` | `v2.1.5` | 3.7  | `parcels-v215/parcels/examples` | `scripts/bootstrap-parcels-v215.sh` |
+| `v222` | `v2.2.2` | 3.8  | `parcels-v222/parcels/examples` | `scripts/bootstrap-parcels-v222.sh` |
+| `v232` | `v2.3.2` | 3.9  | `parcels-v232/parcels/examples` | `scripts/bootstrap-parcels-v232.sh` |
+| `v242` | `v2.4.2` | 3.10 | `parcels-v242/docs/examples` | `scripts/bootstrap-parcels-v242.sh` |
+| `v306` | `v3.0.6` | 3.10 | `parcels-v306/docs/examples` | `scripts/bootstrap-parcels-v306.sh` |
+| `v314` | `v3.1.4` | 3.11 | `parcels-v314/docs/examples` | `scripts/bootstrap-parcels-v314.sh` |
 
-### Release notes
+For version-specific notes, quirks, and maintenance guidance, see [AGENTS.md](AGENTS.md).
 
-**`v09`**  
-- Minimal Python 2.7 stack mirroring the 2017 OceanParcels release.  
-- Bootstrap script installs the PyPI-only wheels (`cgen`, `progressbar`, `pymbolic`)
-  and performs an editable install.
-- Runtime tasks disable automatic browser
-  launches for the legacy notebook server.
-
-**`v105`**
-- Stable v1.0.x release (Python 2.7) representing the first production-ready v1 line.
-- Environment mirrors `environment_py2_osx.yml` with dependencies from the upstream tag
-  (matplotlib 2.2.* used for conda-forge compatibility).
-- Bootstrap script installs pip-only wheels (`cgen<2020`, `pymbolic<2020`, `progressbar2<4`)
-  then runs `pip install -e parcels-v105` to generate `parcels._version`.
-- Notebook task points at `parcels-v105/parcels/examples` for v1.0.5 example notebooks.
-- Bridges the gap between v0.9 (early experimental) and v1.1.1 (mature v1.x).
-
-**`v111`**
-- Adds the extra historic dependencies from `environment_py2_osx.yml` and still
-  targets Python 2.7.  
-- Bootstrap script installs the pip-only wheels, then runs
-  `pip install -e parcels-v111` to materialise `parcels._version`.  
-- Notebook task points at `parcels-v111/parcels/examples`, which is where the
-  v1.1.1 notebooks live.
-
-**`v242`**  
-- Latest v2 line checked out at tag `v2.4.2` with a Python 3.10 toolchain.  
-- Bootstrap script installs `setuptools_scm_git_archive` before the editable
-  install so `_version` files are generated.  
-- Python/notebook tasks export `MPLCONFIGDIR=$PWD/.cache/matplotlib` to avoid
-  writes into `$HOME`, and they look in `parcels-v242/docs/examples` for scripts
-  and notebooks.  
-- MPI tooling (`mpi4py`, `mpich`) is intentionally omitted from the default
-  feature; add them yourself if you run outside sandboxed environments.
-
-**`v314`**  
-- Modern v3.1.4 release tracked from the PyProject-based tree (Python 3.11).  
-- Bootstrap script just runs `pip install -e parcels-v314` because the build now
-  ships with `pyproject.toml`.  
-- Runtime tasks keep the same headless settings as v242, export `MPLCONFIGDIR`
-  for Matplotlib caches, and point Jupyter at `parcels-v314/docs/examples`.  
-- Extra tooling (`trajan`, `mypy`, `types-*`, Notebook 7) is available directly
-  in the Pixi environment for parity with the upstream `environment.yml`.
