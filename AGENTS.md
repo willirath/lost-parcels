@@ -56,6 +56,10 @@ entries and a short README/agent blurb.
 - Remind folks that `git submodule update --init --recursive` reruns safely
   after pulling, while `git submodule update --remote` refreshes to the newest
   upstream tags when a new release directory is added.
+- **IMPORTANT**: Never `cd` into a submodule directory. Always work from the
+  repository root to avoid git operations on the wrong repository. If you
+  accidentally enter a submodule, use `cd` with an absolute path to return
+  to the repository root.
 
 ## Tutorial data workflow
 
@@ -66,7 +70,7 @@ entries and a short README/agent blurb.
   `scripts/link-example-data.sh <slug>` to wire the shared cache into the legacy
   `parcels/examples/*` paths that the Py2 releases expect. Update the slug →
   dataset mapping inside that script whenever requirements change.
-- All v242/v314 Pixi tasks set `PARCELS_EXAMPLE_DATA=$PWD/.cache/parcels-example-data`
+- All v242/v306/v314 Pixi tasks set `PARCELS_EXAMPLE_DATA=$PWD/.cache/parcels-example-data`
   so their `download_example_dataset()` helper reuses the cache automatically.
 - The README’s tutorial-data section should keep pointing users at
   `pixi run bootstrap-example-data`, explain that bootstraps relink the cache,
