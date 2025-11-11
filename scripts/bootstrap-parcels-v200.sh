@@ -5,3 +5,4 @@ cd "$ROOT"
 pip install "setuptools_scm_git_archive>=1.0,<2"
 pip install "pytools<2022" "progressbar2<4" "python-utils<3"
 pip install -e parcels-v200
+bash scripts/link-example-data.sh v200

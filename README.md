@@ -23,6 +23,32 @@ Whenever a new Parcels release lands in this repo, re-running that command (or
 `git submodule update --remote` if you want to track the newest upstream tags)
 will pull down the matching `parcels-vXYZ/` contents so Pixi can see them.
 
+## Download tutorial datasets
+
+This repo keeps a single cache of example NetCDF bundles under
+`.cache/parcels-example-data` and wires every release up to that location. Run
+the global bootstrap task once to fill the cache:
+
+```bash
+pixi run bootstrap-example-data
+```
+
+The downloader skips files that already exist, so you can re-run it after a pull
+to grab newly added datasets without re-touching the old ones.
+
+Every `pixi run bootstrap-vXYZ` command automatically re-links the cache inside
+the legacy `parcels-vXYZ/parcels/examples/*` paths (where the Py2 releases
+expect the data). The modern Py3 tasks (`parcels-v242-*`, `parcels-v314-*`)
+export `PARCELS_EXAMPLE_DATA=$PWD/.cache/parcels-example-data`, so the shared
+cache is also visible to their `parcels.download_example_dataset(...)` helper.
+
+Current dataset folders: `MovingEddies_data`, `OFAM_example_data`,
+`Peninsula_data`, `GlobCurrent_example_data`, `DecayingMovingEddy_data`,
+`NemoCurvilinear_data`, `MITgcm_example_data`, `NemoNorthSeaORCA025-N006_data`,
+`POPSouthernOcean_data`, `SWASH_data`, `WOA_data`, and `CROCOidealized_data`
+(`CROCO` is only used by `v314`). Update this list and the helper scripts
+whenever new upstream tutorials reference additional data.
+
 ## Workflow Overview
 
 Every OceanParcels release in this repo follows the same pattern:
